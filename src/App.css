@@ -1,0 +1,242 @@
+:root {
+  --bg: #050505;
+  --glass: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --accent: #007AFF;
+  --navy-cyan: #00d4ff;
+  --text-main: #ffffff;
+  --text-dim: rgba(255, 255, 255, 0.4);
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(circle at center, #111 0%, #050505 100%);
+  color: var(--text-main);
+  font-family: 'Inter', -apple-system, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+.app-viewport {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+.main-container {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* --- BAR --- */
+.spotlight-bar {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  background: rgba(20, 20, 20, 0.8);
+  backdrop-filter: blur(30px) saturate(150%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 100;
+  width: 60px;
+  border-radius: 30px;
+}
+
+.spotlight-bar.expanded {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 18px;
+  cursor: default;
+}
+
+.trigger-circle {
+  min-width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.plus-icon {
+  font-size: 32px;
+  font-weight: 200;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.plus-icon.rotated {
+  transform: rotate(135deg);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.input-area {
+  flex: 1;
+  padding-right: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.spotlight-bar.expanded .input-area {
+  opacity: 1;
+}
+
+.input-area input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 300;
+}
+
+/* --- PILLS & SELECT MODE --- */
+.pills-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 30px 0;
+}
+
+.pill {
+  position: relative;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  cursor: grab;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.pill:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+.pill.active-selection {
+  background: var(--accent) !important;
+  color: white !important;
+  border-color: var(--navy-cyan);
+  box-shadow: 0 0 15px rgba(0, 122, 255, 0.4);
+}
+
+.pill-delete-btn {
+  background: none;
+  border: none;
+  color: #ff4d4d;
+  cursor: pointer;
+  font-size: 10px;
+  opacity: 0;
+  width: 0;
+  transition: all 0.2s ease;
+}
+
+.pill:hover .pill-delete-btn {
+  opacity: 1;
+  width: 14px;
+  margin-left: 8px;
+}
+
+.pill.dashed {
+  border-style: dashed;
+  cursor: pointer;
+}
+
+/* --- TASK LIST --- */
+.list-content {
+  width: 100%;
+  transition: all 0.6s ease;
+}
+
+.task-item {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--glass-border);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.task-item:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.task-item.assign-mode:hover {
+  background: rgba(0, 212, 255, 0.03);
+}
+
+.task-item.checked {
+  opacity: 0;
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.task-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.task-text {
+  flex: 1;
+  font-size: 1.2rem;
+  font-weight: 300;
+  position: relative;
+  word-break: break-word;
+}
+
+.task-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.4s ease;
+}
+
+.task-item.checked .task-text::after {
+  width: 100%;
+}
+
+/* --- GLOWING TAG --- */
+.assignment-tag {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--navy-cyan);
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.4);
+  padding: 4px 12px;
+  border-radius: 50px;
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.15);
+  flex-shrink: 0;
+}
+
+.empty-state {
+  text-align: center;
+  margin-top: 60px;
+  opacity: 0.2;
+  font-size: 1rem;
+}
+
+@media (max-width: 480px) {
+  .task-text {
+    font-size: 1rem;
+  }
+}
